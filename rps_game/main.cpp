@@ -46,7 +46,7 @@ void showHelp()
     std::cout << "Usage:" << std::endl;
     std::cout << "  rps_game [options]" << std::endl;
     std::cout << "      --level (EASY|NORMAL|HARD)" << std::endl;
-    std::cout << "          specify game difficulty" << std::endl;
+    std::cout << "          specify game difficulty (argument is required)" << std::endl;
     std::cout << "      --version" << std::endl;
     std::cout << "          output programm version" << std::endl;
 }
