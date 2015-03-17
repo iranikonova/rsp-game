@@ -19,16 +19,28 @@
 
 #include <iostream>
 #include <algorithm>
+#include <string>
 
 /*!
  * \brief The Level enum
  */
 enum Level
 {
-    UNSPECIFIED = 0,
+    UNSPECIFIED_LEVEL = 0,
     EASY,
     NORMAL,
     HARD
+};
+
+/*!
+ * \brief The Version enum
+ */
+enum Version
+{
+    UNSPECIFIED_VERSION = 0,
+    _1_0,
+    _1_1,
+    _1_2
 };
 
 const std::string cArgKeyLevel = "--level";
@@ -37,6 +49,10 @@ const std::string cArgKeyVersion = "--version";
 const std::string cLevelStringEasy = "easy";
 const std::string cLevelStringNormal = "normal";
 const std::string cLevelStringHard = "hard";
+
+const std::string cVersionString1 = "1.0";
+const std::string cVersionString2 = "1.1";
+const std::string cVersionString3 = "1.2";
 
 /*!
  * \brief showHelp
@@ -52,13 +68,28 @@ void showHelp()
 }
 
 /*!
+ * \brief showInfo
+ */
+void showInfo(std::string programName, std::string versionName)
+{
+    std::cout << "Program details:" << std::endl;
+    std::cout << "  Name: " << programName << std::endl;
+    std::cout << "  Version: " << versionName << std::endl;
+    std::cout << "  Description: " << std::endl;
+    std::cout << "      Rock-paper-scissors is a zero sum hand game" << std::endl;
+    std::cout << "      usually played between two people/ players" << std::endl;
+    std::cout << "      where each player simultaneously forms one of three shapes" << std::endl;
+    std::cout << "      with an outstretched hand" << std::endl;
+}
+
+/*!
  * \brief parseLevel
  * \param levelString
  * \return
  */
 Level parseLevel(std::string levelString)
 {
-    Level rLevel = UNSPECIFIED;
+    Level rLevel = UNSPECIFIED_LEVEL;
 
     std::transform(levelString.begin(), levelString.end(), levelString.begin(), ::tolower);
 
@@ -76,6 +107,58 @@ Level parseLevel(std::string levelString)
     }
 
     return rLevel;
+}
+
+/*!
+ * \brief parseVersion
+ * \param versionString
+ * \return
+ */
+Version parseVersion(std::string versionString)
+{
+    Version rVersion = UNSPECIFIED_VERSION;
+
+    std::transform(versionString.begin(), versionString.end(), versionString.begin(), ::tolower);
+
+    if (cVersionString1 == versionString)
+    {
+        rVersion = _1_0;
+    }
+    else if (cVersionString2 == versionString)
+    {
+        rVersion = _1_1;
+    }
+    else if (cVersionString3 == versionString)
+    {
+        rVersion = _1_2;
+    }
+
+    return rVersion;
+}
+
+/*!
+ * \brief parseVersion
+ * \param version
+ * \return
+ */
+std::string parseVersion(Version version)
+{
+    std::string versionName;
+
+    if (_1_0 == version)
+    {
+        versionName = cVersionString1;
+    }
+    else if (_1_1 == version)
+    {
+        versionName = cVersionString2;
+    }
+    else if (_1_2 == version)
+    {
+        versionName = cVersionString3;
+    }
+
+    return versionName;
 }
 
 /*!
@@ -128,6 +211,24 @@ std::string stringArg(int argc, char* argv[], std::string argName)
 }
 
 /*!
+ * \brief getFilename
+ * \param separator
+ * \return
+ */
+std::string getFilename(std::string path, char* separator)
+{
+    std::string filename;
+
+    size_t beginPos = path.rfind(separator);
+    size_t endPos = path.rfind('.');
+
+    if((beginPos != std::string::npos) && (endPos != std::string::npos))
+        filename = path.substr(beginPos + 1, endPos - beginPos - 1);
+
+    return filename;
+}
+
+/*!
  * \brief main
  * \param argc
  * \param argv
@@ -141,8 +242,27 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    // Parse version
+    Version version = UNSPECIFIED_VERSION;
+
+    std::string versionStr = stringArg(argc, argv, cArgKeyVersion);
+    if (!versionStr.empty())
+    {
+        version = parseVersion(versionStr);
+    }
+
+    if (UNSPECIFIED_VERSION != version)
+    {
+        std::string programName = getFilename(argv[0], "\\");
+        std::string versionName = parseVersion(version);
+
+        showInfo(programName, versionName);
+
+        return 0;
+    }
+
     // Parse level
-    Level level = UNSPECIFIED;
+    Level level = UNSPECIFIED_LEVEL;
 
     std::string levelStr = stringArg(argc, argv, cArgKeyLevel);
     if (!levelStr.empty())
@@ -150,7 +270,7 @@ int main(int argc, char* argv[])
         level = parseLevel(levelStr);
     }
 
-    if (UNSPECIFIED == level)
+    if (UNSPECIFIED_LEVEL == level)
     {
         showHelp();
         return 1;
