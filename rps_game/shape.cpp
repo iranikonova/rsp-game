@@ -5,7 +5,7 @@ Shape::Shape(std::string shapeName)
     this->shapeName = shapeName;
 }
 
-Shape::SetName(std::string shapeName)
+void Shape::SetName(std::string shapeName)
 {
    this->shapeName = shapeName;
 }

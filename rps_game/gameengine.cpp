@@ -2,9 +2,9 @@
 
 GameEngine::GameEngine()
 {
-    Shape rock("Rock");
-    Shape paper("Paper");
-    Shape scissors("Scissors");
+    Shape rock("rock");
+    Shape paper("paper");
+    Shape scissors("scissors");
 
     rock.AddKiller(paper);
     rock.AddVictim(scissors);
@@ -46,7 +46,7 @@ Shape GameEngine::RandomShape()
     return GameShapes[randNumber];
 }
 
-void GameEngine::ProgramShapeChoose(int level)
+std::string GameEngine::ProgramShapeChoose(int level)
 {
 
     if(1 == level)
@@ -106,6 +106,8 @@ void GameEngine::ProgramShapeChoose(int level)
             ProgramShape = RandomShape();
         }
     }
+
+    return ProgramShape.GetName();
 }
 
 int GameEngine::GameResult()

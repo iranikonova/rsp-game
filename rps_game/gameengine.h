@@ -4,8 +4,6 @@
 #include<vector>
 #include "shape.h"
 
-using namespace Levels;
-
 class GameEngine
 {
 public:
@@ -19,7 +17,7 @@ public:
     Shape RandomShape();
 
     bool UserShapeChoose(std::string shapeName);
-    void ProgramShapeChoose(int level); //TODO: change int to enum Level
+    std::string ProgramShapeChoose(int level); //TODO: change int to enum Level
 
     int GameResult();
 };

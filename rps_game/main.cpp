@@ -21,6 +21,8 @@
 #include <algorithm>
 #include <string>
 
+#include "gameengine.h"
+
 /*!
  * \brief The Level enum
  */
@@ -163,6 +165,64 @@ std::string getFilename(std::string path, char* separator)
     return filename;
 }
 
+void Play(Level level)
+{
+    GameEngine gameEngine;
+    std::string enteredString;
+    std::string gameBehaviour;
+
+    std::string str0("0");
+    std::string str1("1");
+
+    while("0" != gameBehaviour)
+    {
+        std::cout << std::endl;
+        std::cout << "Enter your shape (Rock|Paper|Scissors)" << std::endl;
+        std::cin >> enteredString;
+
+        for(auto c : enteredString)
+        {
+            tolower(c);
+        }
+
+        bool existShape = false;
+        existShape =  gameEngine.UserShapeChoose(enteredString);
+
+        if(existShape)
+        {
+            std::string programShape = gameEngine.ProgramShapeChoose(level);
+            std::cout << programShape << std::endl;
+
+            int gameResult = gameEngine.GameResult();
+            if(1 == gameResult)
+            {
+                std::cout << "Congritulations!" << std::endl;
+            }
+            if(2 == gameResult)
+            {
+                std::cout << "You are looser" << std::endl;
+            }
+            if(0 == gameResult)
+            {
+                std::cout << "Drawr" << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Incorrect shape name" << std::endl;
+        }
+
+        gameBehaviour = "";
+
+        while(("0" == gameBehaviour)||("1" == gameBehaviour))
+        {
+            std::cout << "Enter [1] - to play new game, [0] - to exit" << std::endl;
+            std::cin >> gameBehaviour;
+        }
+    }
+
+}
+
 /*!
  * \brief main
  * \param argc
@@ -205,6 +265,7 @@ int main(int argc, char* argv[])
     }
 
     std::cout << level << std::endl;
+    Play(level);
 
     return 0;
 }
