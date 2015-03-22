@@ -32,17 +32,6 @@ enum Level
     HARD
 };
 
-/*!
- * \brief The Version enum
- */
-enum Version
-{
-    UNSPECIFIED_VERSION = 0,
-    _1_0,
-    _1_1,
-    _1_2
-};
-
 const std::string cArgKeyLevel = "--level";
 const std::string cArgKeyVersion = "--version";
 
@@ -50,9 +39,7 @@ const std::string cLevelStringEasy = "easy";
 const std::string cLevelStringNormal = "normal";
 const std::string cLevelStringHard = "hard";
 
-const std::string cVersionString1 = "1.0";
-const std::string cVersionString2 = "1.1";
-const std::string cVersionString3 = "1.2";
+const std::string cVersionString = "1.0";
 
 /*!
  * \brief showHelp
@@ -107,58 +94,6 @@ Level parseLevel(std::string levelString)
     }
 
     return rLevel;
-}
-
-/*!
- * \brief parseVersion
- * \param versionString
- * \return
- */
-Version parseVersion(std::string versionString)
-{
-    Version rVersion = UNSPECIFIED_VERSION;
-
-    std::transform(versionString.begin(), versionString.end(), versionString.begin(), ::tolower);
-
-    if (cVersionString1 == versionString)
-    {
-        rVersion = _1_0;
-    }
-    else if (cVersionString2 == versionString)
-    {
-        rVersion = _1_1;
-    }
-    else if (cVersionString3 == versionString)
-    {
-        rVersion = _1_2;
-    }
-
-    return rVersion;
-}
-
-/*!
- * \brief parseVersion
- * \param version
- * \return
- */
-std::string parseVersion(Version version)
-{
-    std::string versionName;
-
-    if (_1_0 == version)
-    {
-        versionName = cVersionString1;
-    }
-    else if (_1_1 == version)
-    {
-        versionName = cVersionString2;
-    }
-    else if (_1_2 == version)
-    {
-        versionName = cVersionString3;
-    }
-
-    return versionName;
 }
 
 /*!
@@ -243,20 +178,13 @@ int main(int argc, char* argv[])
     }
 
     // Parse version
-    Version version = UNSPECIFIED_VERSION;
+    int keyVersionPosition = -1;
+    keyVersionPosition = findArgPosition(argc, argv, cArgKeyVersion);
 
-    std::string versionStr = stringArg(argc, argv, cArgKeyVersion);
-    if (!versionStr.empty())
-    {
-        version = parseVersion(versionStr);
-    }
-
-    if (UNSPECIFIED_VERSION != version)
+    if (keyVersionPosition != -1)
     {
         std::string programName = getFilename(argv[0], "\\");
-        std::string versionName = parseVersion(version);
-
-        showInfo(programName, versionName);
+        showInfo(programName, cVersionString);
 
         return 0;
     }
