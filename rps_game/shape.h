@@ -21,11 +21,13 @@ public:
 
     bool IsInitialized();
 
-    void AddKiller(Shape &killer);
+    void AddKiller(Shape killer);
     std::vector<Shape> GetKillers(){ return killers;}
 
-    void AddVictim(Shape &victim);
+    void AddVictim(Shape victim);
     std::vector<Shape> GetVictims(){ return victims;}
+
+//    void OutShape();
 };
 
 #endif // SHAPE_H

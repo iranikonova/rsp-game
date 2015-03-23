@@ -1,4 +1,5 @@
 #include "gameengine.h"
+#include <iostream>
 
 GameEngine::GameEngine()
 {
@@ -34,8 +35,13 @@ bool GameEngine::UserShapeChoose(std::string shapeName)
             UserShape = shape;
         }
     }
-
     return UserShape.IsInitialized();
+
+//    std::cout << std::endl;
+//    std::cout << "UserShapeChoose:" << std::endl;
+//    UserShape.OutShape();
+//    std::cout << std::endl;
+
 }
 
 Shape GameEngine::RandomShape()
@@ -55,12 +61,12 @@ std::string GameEngine::ProgramShapeChoose(int level)
 
         int randomNumber;
         randomNumber = rand() % 3;
-
         if(2 != randomNumber)
         {
             int randomVictim = 0;
 
             std::vector<Shape> victims = UserShape.GetVictims();
+
 
             int victimsCount = victims.size();
             if(1 < victimsCount)
@@ -86,7 +92,6 @@ std::string GameEngine::ProgramShapeChoose(int level)
 
         int randomNumber;
         randomNumber = rand() % 3;
-
         if(2 != randomNumber)
         {
             int randomKiller = 0;
@@ -113,6 +118,7 @@ std::string GameEngine::ProgramShapeChoose(int level)
 int GameEngine::GameResult()
 {
     // 0 - Draw, 1 - User, 2 - Program
+
     for (Shape & shape: UserShape.GetVictims())
     {
         if(shape.GetName() == ProgramShape.GetName())
@@ -121,9 +127,9 @@ int GameEngine::GameResult()
         }
     }
 
-    for (Shape & shape: ProgramShape.GetVictims())
+    for (Shape & shape: UserShape.GetKillers())
     {
-        if(shape.GetName() == UserShape.GetName())
+        if(shape.GetName() == ProgramShape.GetName())
         {
             return 2;
         }

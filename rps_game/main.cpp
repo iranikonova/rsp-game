@@ -171,9 +171,6 @@ void Play(Level level)
     std::string enteredString;
     std::string gameBehaviour;
 
-    std::string str0("0");
-    std::string str1("1");
-
     while("0" != gameBehaviour)
     {
         std::cout << std::endl;
@@ -200,11 +197,11 @@ void Play(Level level)
             }
             if(2 == gameResult)
             {
-                std::cout << "You are looser" << std::endl;
+                std::cout << "You are looser :(" << std::endl;
             }
             if(0 == gameResult)
             {
-                std::cout << "Drawr" << std::endl;
+                std::cout << "Drawn" << std::endl;
             }
         }
         else
@@ -214,7 +211,7 @@ void Play(Level level)
 
         gameBehaviour = "";
 
-        while(("0" == gameBehaviour)||("1" == gameBehaviour))
+        while(("0" != gameBehaviour)&&("1" != gameBehaviour))
         {
             std::cout << "Enter [1] - to play new game, [0] - to exit" << std::endl;
             std::cin >> gameBehaviour;
